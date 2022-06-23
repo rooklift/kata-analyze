@@ -52,7 +52,7 @@ class KataGo():
 
 	def receive(self):
 
-		msg = self.p.stdout.readline().decode("utf8").strip()		# It would end with \n otherwise
+		msg = self.p.stdout.readline().decode("utf8").rstrip()		# It would end with \n otherwise
 
 		if not self.first_receive_time:
 			self.first_receive_time = time.monotonic()
@@ -118,7 +118,7 @@ while True:
 
 		for moveinfo in moveinfos:
 
-			tokens = moveinfo.strip().split(" ")
+			tokens = moveinfo.split(" ")
 
 			if "visits" in tokens:
 				totalvisits += int(tokens[tokens.index("visits") + 1])
