@@ -437,8 +437,13 @@ class Node:
 		key = str(key)
 
 		if key not in self.props:
-			return None
+			return ""
 		return self.props[key][0]
+
+
+	def has_key(self, key):
+		
+		return key in self.props
 
 
 	def all_values(self, key):
