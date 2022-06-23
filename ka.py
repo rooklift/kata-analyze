@@ -143,12 +143,11 @@ while True:
 	incoming_msg_id, s = katago.receive()
 	if incoming_msg_id != katago.last_sent_msg_id:
 		continue
-
 	if s == "":
 		break
-
 	boardtext += s + "\n"
-	print(boardtext)
+
+print(boardtext)
 
 print("Time elapsed:")
 print(time.monotonic() - katago.first_receive_time)
