@@ -115,6 +115,7 @@ while True:
 
 		totalvisits = 0
 		topmove = None
+		topvisits = 0
 
 		for moveinfo in moveinfos:
 
@@ -125,9 +126,11 @@ while True:
 
 			if not topmove and "move" in tokens:
 				topmove = tokens[tokens.index("move") + 1]
+				if "visits" in tokens:
+					topvisits = int(tokens[tokens.index("visits") + 1])
 
 		if totalvisits > 500:
-			print(f"Node {depth}: total visits {totalvisits}, best move: {topmove}")
+			print(f"Node {depth}: total visits {totalvisits}, best move: {topmove} ({topvisits})")
 			break
 
 	if len(node.children) == 0:
