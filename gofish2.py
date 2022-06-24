@@ -443,7 +443,7 @@ class Node:
 
 	def has_key(self, key):
 		
-		return key in self.props
+		return str(key) in self.props
 
 
 	def all_values(self, key):
