@@ -1,7 +1,7 @@
 import gofish2, subprocess, sys, threading, time
 
 # This was just an experiment to see how fast GTP is or isn't.
-# Limitations: no illegal board edits. We don't check for "?" responses.
+# Limitations: no illegal board edits.
 
 exe_path = "C:\\Programs (self-installed)\\KataGo 1.11.0 OpenCL\\katago.exe"
 
@@ -63,6 +63,9 @@ class KataGo():
 			except:
 				i = len(msg)
 			self.last_received_msg_id = int(msg[1:i])
+
+		if msg.startswith("?"):
+			raise ValueError
 
 		return (self.last_received_msg_id, msg)
 
