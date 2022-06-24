@@ -1,7 +1,7 @@
 import gofish2, subprocess, sys, threading, time
 
 # This was just an experiment to see how fast GTP is or isn't.
-# Limitations: no handicap stones, no board edits, size should be 19x19.
+# Limitations: no illegal board edits. We don't check for "?" responses.
 
 exe_path = "C:\\Programs (self-installed)\\KataGo 1.11.0 OpenCL\\katago.exe"
 
@@ -91,16 +91,31 @@ katago = KataGo()
 node = gofish2.load(sys.argv[1])[0]
 depth = 0
 
+if node.width != node.height:
+	raise ValueError
+
+size = node.width
+komi = float(node.get("KM")) if node.get("KM") else 0
+
+katago.send(f"boardsize {size}")
+katago.send(f"clear_board")
+katago.send(f"komi {komi}")
+
 while True:
 
-	b = node.get("B")
-	w = node.get("W")
+	ab = node.all_values("AB")
+	aw = node.all_values("AW")
+	b = node.all_values("B")
+	w = node.all_values("W")
 
-	if b:
-		katago.send(f"play b {english(b, 19)}")
-
-	if w:
-		katago.send(f"play w {english(w, 19)}")
+	for item in ab:
+		katago.send(f"play b {english(item, size)}")
+	for item in aw:
+		katago.send(f"play w {english(item, size)}")
+	for item in b:
+		katago.send(f"play b {english(item, size)}")
+	for item in w:
+		katago.send(f"play w {english(item, size)}")
 
 	katago.send("kata-analyze interval 10")
 
